@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Controllers;
@@ -15,7 +16,7 @@ namespace KTS.Web.Api.Filters
             if (actionContext.Request.Headers.TryGetValues("api-key", out apiKeyHeaderValues))
             {
                 var apiKeyValue = apiKeyHeaderValues.FirstOrDefault();
-                if (!String.IsNullOrEmpty(apiKeyValue) && apiKeyValue == "jws229")
+                if (!String.IsNullOrEmpty(apiKeyValue) && apiKeyValue == ConfigurationManager.AppSettings["SharedApiKey"])
                 {
                     return;
                 }
