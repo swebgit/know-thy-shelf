@@ -31,14 +31,14 @@ namespace KTS.Web.Api.Providers.Algolia
             }
         }
 
-        public async Task<bool> CreateOrUpdateBookIndexAsync(JToken book, int id)
+        public async Task<bool> CreateOrUpdateBookIndexAsync(JObject book, int id)
         {
             try
             {
                 var indexObject = await this.PrimaryIndex.GetObjectAsync(id.ToString(), new string[] { "objectID" });
                 if (indexObject != null)
                 {
-                    await PrimaryIndex.SaveObjectAsync(JObject.Parse(book.ToString(Formatting.None)));
+                    await PrimaryIndex.SaveObjectAsync(book);
                 }
             }
             catch (AlgoliaException ex)

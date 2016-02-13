@@ -50,17 +50,17 @@ namespace KTS.Web.Api.Providers.DynamoDb
             return -1;
         }
 
-        public async Task<JToken> GetBookAsync(int id)
+        public async Task<JObject> GetBookAsync(int id)
         {
             var book = await BooksTable.GetItemAsync(id);
             if (book != null)
             {
-                return JToken.Parse(book.ToJson());
+                return JObject.Parse(book.ToJson());
             }
             return null;
         }
 
-        public async Task<int> CreateOrUpdateBookAsync(JToken newBook)
+        public async Task<int> CreateOrUpdateBookAsync(JObject newBook)
         {
             var document = Document.FromJson(newBook.ToString(Newtonsoft.Json.Formatting.None));
             if (!document.GetAttributeNames().Contains("objectID"))

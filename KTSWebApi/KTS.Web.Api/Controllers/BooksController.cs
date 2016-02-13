@@ -26,7 +26,7 @@ namespace KTS.Web.Api.Controllers
             try
             {
                 var book = await this.databaseClient.GetBookAsync(id);
-                return Ok(new Result<JToken>(book, book != null));
+                return Ok(new Result<JObject>(book, book != null));
             }
             catch (Exception ex)
             {
@@ -37,7 +37,7 @@ namespace KTS.Web.Api.Controllers
         // POST: api/books
         [HttpPost]
         [Route("")]
-        public async Task<IHttpActionResult> CreateOrUpdateBook(JToken book)
+        public async Task<IHttpActionResult> CreateOrUpdateBook(JObject book)
         {
             try
             {

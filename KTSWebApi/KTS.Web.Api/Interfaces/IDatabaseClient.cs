@@ -5,9 +5,9 @@ namespace KTS.Web.Api.Interfaces
 {
     public interface IDatabaseClient
     {
-        Task<JToken> GetBookAsync(int id);
+        Task<JObject> GetBookAsync(int id);
 
-        Task<int> CreateOrUpdateBookAsync(JToken book);
+        Task<int> CreateOrUpdateBookAsync(JObject book);
 
         Task<bool> DeleteBookAsync(int id);
     }
