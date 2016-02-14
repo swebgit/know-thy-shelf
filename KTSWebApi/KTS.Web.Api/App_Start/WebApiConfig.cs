@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
-using KTS.Web.Api.Interfaces;
-using KTS.Web.Api.Providers.Algolia;
-using KTS.Web.Api.Providers.DynamoDb;
+using KTS.Web.Interfaces;
+using KTS.Web.Search.Algolia;
+using KTS.Web.Data.DynamoDb;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Routing;

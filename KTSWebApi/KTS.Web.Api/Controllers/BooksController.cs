@@ -1,4 +1,6 @@
-﻿using KTS.Web.Api.Interfaces;
+﻿using KTS.Web.Enums;
+using KTS.Web.Interfaces;
+using KTS.Web.Objects;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Threading.Tasks;
@@ -26,7 +28,7 @@ namespace KTS.Web.Api.Controllers
             try
             {
                 var book = await this.databaseClient.GetBookAsync(id);
-                return Ok(new Result<JObject>(book, book != null));
+                return Ok(new Result<JObject>(book.JObject, book != null));
             }
             catch (Exception ex)
             {
@@ -37,13 +39,29 @@ namespace KTS.Web.Api.Controllers
         // POST: api/books
         [HttpPost]
         [Route("")]
-        public async Task<IHttpActionResult> CreateOrUpdateBook(JObject book)
+        public async Task<IHttpActionResult> CreateOrUpdateBook(JObject rawBook)
         {
             try
             {
-                var objectId = await this.databaseClient.CreateOrUpdateBookAsync(book);
-                await this.searchClient.CreateOrUpdateBookIndexAsync(book, objectId);
-                return Ok(objectId);
+                var book = new DatabaseJObject(rawBook);
+                if (book.ObjectType != DatabaseObjectType.Book && book.ObjectType != DatabaseObjectType.None)
+                {
+                    return Ok(new Result(DatabaseObjectType.Book, book.ObjectType));
+                }
+                else
+                {
+                    book.ObjectType = DatabaseObjectType.Book;
+                    book = await this.databaseClient.CreateOrUpdateBookAsync(book);
+                    if (book.ObjectId.HasValue)
+                    {
+                        await this.searchClient.CreateOrUpdateBookIndexAsync(book);
+                        return Ok(book.ObjectId.Value);
+                    }
+                    else
+                    {
+                        return Ok(new Result("No object ID could be found or created for the book."));
+                    }
+                }
             }
             catch (Exception ex)
             {

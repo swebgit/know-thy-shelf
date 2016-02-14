@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using KTS.Web.Enums;
+using Newtonsoft.Json;
 
 namespace KTS.Web.Api
 {
@@ -20,6 +21,12 @@ namespace KTS.Web.Api
         {
             this.Success = false;
             this.Error = error;
+        }
+
+        public Result(DatabaseObjectType expectedType, DatabaseObjectType actualType)
+        {
+            this.Success = false;
+            this.Error = $"Incorrect object type. Expected Type = {expectedType.ToString()}. Actual Type = {actualType.ToString()}";
         }
     }
 

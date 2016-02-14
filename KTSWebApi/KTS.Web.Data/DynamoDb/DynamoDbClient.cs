@@ -1,4 +1,4 @@
-﻿using KTS.Web.Api.Interfaces;
+﻿using KTS.Web.Interfaces;
 using System;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
@@ -6,8 +6,11 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using System.Configuration;
 using Amazon;
+using KTS.Web.Objects;
+using KTS.Web.Enums;
+using System.Linq;
 
-namespace KTS.Web.Api.Providers.DynamoDb
+namespace KTS.Web.Data.DynamoDb
 {
     public class DynamoDbClient : IDatabaseClient
     {
@@ -50,25 +53,28 @@ namespace KTS.Web.Api.Providers.DynamoDb
             return -1;
         }
 
-        public async Task<JObject> GetBookAsync(int id)
+        public async Task<DatabaseJObject> GetBookAsync(int id)
         {
-            var book = await BooksTable.GetItemAsync(id);
+            var query = BooksTable.Query(id, new QueryFilter(DatabaseJObject.TYPE_PROPERTY_NAME, QueryOperator.Equal, DatabaseObjectType.Book.ToString()));
+            var books = await query.GetRemainingAsync();
+            var book = books.FirstOrDefault();
             if (book != null)
             {
-                return JObject.Parse(book.ToJson());
+                return new DatabaseJObject(JObject.Parse(book.ToJson()));
             }
             return null;
         }
 
-        public async Task<int> CreateOrUpdateBookAsync(JObject newBook)
+        public async Task<DatabaseJObject> CreateOrUpdateBookAsync(DatabaseJObject book)
         {
-            var document = Document.FromJson(newBook.ToString(Newtonsoft.Json.Formatting.None));
-            if (!document.GetAttributeNames().Contains("objectID"))
+            if (!book.ObjectId.HasValue)
             {
-                document.Add("objectID", await this.GetNextObjectId());
+                book.ObjectId = await this.GetNextObjectId();
             }
+
+            var document = Document.FromJson(book.JObject.ToString(Newtonsoft.Json.Formatting.None));
             await BooksTable.PutItemAsync(document);
-            return document["objectID"].AsInt();
+            return book;
         }
 
         public async Task<bool> DeleteBookAsync(int id)

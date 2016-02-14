@@ -1,12 +1,13 @@
-﻿using KTS.Web.Api.Interfaces;
+﻿using KTS.Web.Interfaces;
 using System;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using Algolia.Search;
 using System.Configuration;
 using Newtonsoft.Json;
+using KTS.Web.Objects;
 
-namespace KTS.Web.Api.Providers.Algolia
+namespace KTS.Web.Search.Algolia
 {
     public class AlgoliaSearchClient : ISearchClient
     {
@@ -31,21 +32,21 @@ namespace KTS.Web.Api.Providers.Algolia
             }
         }
 
-        public async Task<bool> CreateOrUpdateBookIndexAsync(JObject book, int id)
+        public async Task<bool> CreateOrUpdateBookIndexAsync(DatabaseJObject book)
         {
             try
             {
-                var indexObject = await this.PrimaryIndex.GetObjectAsync(id.ToString(), new string[] { "objectID" });
+                var indexObject = await this.PrimaryIndex.GetObjectAsync(book.ObjectId.ToString(), new string[] { DatabaseJObject.OBJECT_ID_PROPERTY_NAME });
                 if (indexObject != null)
                 {
-                    await PrimaryIndex.SaveObjectAsync(book);
+                    await PrimaryIndex.SaveObjectAsync(book.JObject);
                 }
             }
             catch (AlgoliaException ex)
             {
                 if (ex.Message.Equals("ObjectID does not exist"))
                 {
-                    await PrimaryIndex.AddObjectAsync(book, objectId: id.ToString());
+                    await PrimaryIndex.AddObjectAsync(book.JObject, objectId: book.ObjectId.ToString());
                 }
                 else
                 {
