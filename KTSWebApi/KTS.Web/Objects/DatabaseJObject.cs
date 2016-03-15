@@ -10,9 +10,6 @@ namespace KTS.Web.Objects
 {
     public class DatabaseJObject
     {
-        public const string TYPE_PROPERTY_NAME = "type";
-        public const string OBJECT_ID_PROPERTY_NAME = "objectID";
-
         public JObject JObject { get; set; }
 
         public DatabaseJObject()
@@ -25,25 +22,21 @@ namespace KTS.Web.Objects
             this.JObject = jObject;
         }
                 
-        public DatabaseObjectType ObjectType
+        public string ObjectType
         {
             get
             {
-                if (this.JObject != null && this.JObject[TYPE_PROPERTY_NAME] != null)
+                if (this.JObject != null && this.JObject[DatabaseFields.OBJECT_TYPE] != null)
                 {
-                    DatabaseObjectType objectType;
-                    if (Enum.TryParse(this.JObject[TYPE_PROPERTY_NAME].Value<string>(), out objectType))
-                    {
-                        return objectType;
-                    }
+                    return this.JObject[DatabaseFields.OBJECT_TYPE].Value<string>();
                 }
-                return DatabaseObjectType.None;
+                return DatabaseObjectType.NONE;
             }
             set
             {
                 if (this.JObject != null)
                 {
-                    this.JObject[TYPE_PROPERTY_NAME] = value.ToString();
+                    this.JObject[DatabaseFields.OBJECT_TYPE] = value.ToString();
                 }
             }
         }
@@ -52,10 +45,10 @@ namespace KTS.Web.Objects
         {
             get
             {
-                if (this.JObject != null && this.JObject[OBJECT_ID_PROPERTY_NAME] != null)
+                if (this.JObject != null && this.JObject[DatabaseFields.OBJECT_ID] != null)
                 {
                     int objectId;
-                    if (int.TryParse(this.JObject[OBJECT_ID_PROPERTY_NAME].Value<string>(), out objectId))
+                    if (int.TryParse(this.JObject[DatabaseFields.OBJECT_ID].Value<string>(), out objectId))
                     {
                         return objectId;
                     }
@@ -66,9 +59,19 @@ namespace KTS.Web.Objects
             {
                 if (this.JObject != null)
                 {
-                    this.JObject[OBJECT_ID_PROPERTY_NAME] = value;
+                    this.JObject[DatabaseFields.OBJECT_ID] = value;
                 }
             }
+        }
+
+        public bool ObjectTypeIs(params string[] objectTypes)
+        {
+            return objectTypes.Any(o => o.Equals(this.ObjectType));
+        }
+
+        public bool ObjectTypeIsNot(params string[] objectTypes)
+        {
+            return objectTypes.All(o => !o.Equals(this.ObjectType));
         }
     }
 }

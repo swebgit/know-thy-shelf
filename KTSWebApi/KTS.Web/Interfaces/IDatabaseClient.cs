@@ -1,5 +1,7 @@
-﻿using KTS.Web.Objects;
+﻿using KTS.Web.Enums;
+using KTS.Web.Objects;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace KTS.Web.Interfaces
@@ -11,5 +13,6 @@ namespace KTS.Web.Interfaces
         Task<DatabaseJObject> CreateOrUpdateBookAsync(DatabaseJObject book);
 
         Task<bool> DeleteBookAsync(int id);
+        Task<Result<List<ActivityClaim>>> ValidateCredentialsAsync(Credentials credentials);
     }
 }

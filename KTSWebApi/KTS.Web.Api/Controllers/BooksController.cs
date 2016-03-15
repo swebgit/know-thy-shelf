@@ -1,4 +1,6 @@
-﻿using KTS.Web.Enums;
+﻿using KTS.Web.Api.Attributes;
+using KTS.Web.Api.Filters;
+using KTS.Web.Enums;
 using KTS.Web.Interfaces;
 using KTS.Web.Objects;
 using Newtonsoft.Json.Linq;
@@ -9,7 +11,7 @@ using System.Web.Http;
 namespace KTS.Web.Api.Controllers
 {
     [RoutePrefix("api/books")]
-    public class BooksController : ApiController
+    public class BooksController : ClaimsEnabledController
     {
         private IDatabaseClient databaseClient;
         private ISearchClient searchClient;
@@ -28,7 +30,7 @@ namespace KTS.Web.Api.Controllers
             try
             {
                 var book = await this.databaseClient.GetBookAsync(id);
-                return Ok(new Result<JObject>(book.JObject, book != null));
+                return Ok(new ApiResult<JObject>(book.JObject, book != null));
             }
             catch (Exception ex)
             {
@@ -39,18 +41,19 @@ namespace KTS.Web.Api.Controllers
         // POST: api/books
         [HttpPost]
         [Route("")]
+        [RequiredClaims(ActivityClaim.CreateBookClaim | ActivityClaim.EditBookClaim)]
         public async Task<IHttpActionResult> CreateOrUpdateBook(JObject rawBook)
         {
             try
             {
                 var book = new DatabaseJObject(rawBook);
-                if (book.ObjectType != DatabaseObjectType.Book && book.ObjectType != DatabaseObjectType.None)
+                if (book.ObjectTypeIsNot(DatabaseObjectType.BOOK, DatabaseObjectType.NONE))
                 {
-                    return Ok(new Result(DatabaseObjectType.Book, book.ObjectType));
+                    return Ok(new Result(DatabaseObjectType.BOOK, book.ObjectType));
                 }
                 else
                 {
-                    book.ObjectType = DatabaseObjectType.Book;
+                    book.ObjectType = DatabaseObjectType.BOOK;
                     book = await this.databaseClient.CreateOrUpdateBookAsync(book);
                     if (book.ObjectId.HasValue)
                     {
@@ -72,6 +75,7 @@ namespace KTS.Web.Api.Controllers
         // DELETE: api/books/{id}
         [HttpDelete]
         [Route("{id:int}")]
+        [RequiredClaims(ActivityClaim.DeleteBookClaim)]
         public async Task<IHttpActionResult> DeleteBook(int id)
         {
             try

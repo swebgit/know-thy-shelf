@@ -6,6 +6,7 @@ using Algolia.Search;
 using System.Configuration;
 using Newtonsoft.Json;
 using KTS.Web.Objects;
+using KTS.Web.Enums;
 
 namespace KTS.Web.Search.Algolia
 {
@@ -36,7 +37,7 @@ namespace KTS.Web.Search.Algolia
         {
             try
             {
-                var indexObject = await this.PrimaryIndex.GetObjectAsync(book.ObjectId.ToString(), new string[] { DatabaseJObject.OBJECT_ID_PROPERTY_NAME });
+                var indexObject = await this.PrimaryIndex.GetObjectAsync(book.ObjectId.ToString(), new string[] { DatabaseFields.OBJECT_ID });
                 if (indexObject != null)
                 {
                     await PrimaryIndex.SaveObjectAsync(book.JObject);

@@ -23,33 +23,33 @@ namespace KTS.Web.Api
             this.Error = error;
         }
 
-        public Result(DatabaseObjectType expectedType, DatabaseObjectType actualType)
+        public Result(string expectedType, string actualType)
         {
             this.Success = false;
-            this.Error = $"Incorrect object type. Expected Type = {expectedType.ToString()}. Actual Type = {actualType.ToString()}";
+            this.Error = $"Incorrect object type. Expected Type = {expectedType}. Actual Type = {actualType}";
         }
     }
 
-    public class Result<T> : Result
+    public class ApiResult<T> : Result
     {
         [JsonProperty(PropertyName = "data")]
         public T Data { get; set; }        
 
-        public Result(T data)
+        public ApiResult(T data)
         {
             this.Data = data;
             this.Success = true;
             this.Error = null;
         }
 
-        public Result(T data, bool success)
+        public ApiResult(T data, bool success)
         {
             this.Data = data;
             this.Success = success;
             this.Error = null;
         }
 
-        public Result(T data, string error)
+        public ApiResult(T data, string error)
         {
             this.Data = data;
             this.Success = false;

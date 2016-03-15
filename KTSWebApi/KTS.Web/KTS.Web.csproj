@@ -30,8 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BCrypt.Net, Version=0.1.5073.29922, Culture=neutral, PublicKeyToken=6bcd409ee6bc9292, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -44,14 +48,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Encryption\HashHelper.cs" />
+    <Compile Include="Enums\ActivityClaim.cs" />
+    <Compile Include="Enums\DatabaseFields.cs" />
     <Compile Include="Enums\DatabaseObjectType.cs" />
+    <Compile Include="Enums\ResultCode.cs" />
     <Compile Include="Interfaces\IDatabaseClient.cs" />
     <Compile Include="Interfaces\ISearchClient.cs" />
+    <Compile Include="Interfaces\ITokenProvider.cs" />
     <Compile Include="Objects\Credentials.cs" />
     <Compile Include="Objects\DatabaseJObject.cs" />
+    <Compile Include="Objects\Result.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="LICENSE.txt" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

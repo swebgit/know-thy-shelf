@@ -5,10 +5,10 @@ using System.Web;
 
 namespace KTS.Web.Enums
 {
-    public enum DatabaseObjectType
+    public static class DatabaseObjectType
     {
-        None,
-        User,
-        Book
+        public const string NONE = "None";
+        public const string USER = "User";
+        public const string BOOK = "Book";
     }
 }
