@@ -46,6 +46,12 @@ namespace KTS.Web.Api
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
+                name: "HomePage",
+                routeTemplate: "{controller}",
+                defaults: new { controller = "Browser" }
+                );
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }

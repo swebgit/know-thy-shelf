@@ -144,6 +144,7 @@
     <Compile Include="Attributes\RequiredClaimsAttribute.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\BrowserController.cs" />
     <Compile Include="Controllers\ClaimsEnabledController.cs" />
     <Compile Include="Filters\TokenClaimsFilter.cs" />
     <Compile Include="Filters\SharedApiKeyFilter.cs" />

@@ -1,4 +1,5 @@
-﻿using KTS.Web.Enums;
+﻿using KTS.Web.Api.Filters;
+using KTS.Web.Enums;
 using KTS.Web.Interfaces;
 using KTS.Web.Objects;
 using System;
@@ -12,6 +13,7 @@ using System.Web.Http;
 namespace KTS.Web.Api.Controllers
 {
     [RoutePrefix("api/auth")]
+    [SharedApiKeyFilter]
     public class AuthenticationController : ApiController
     {
         private IDatabaseClient databaseClient;

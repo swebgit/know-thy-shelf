@@ -7,7 +7,7 @@ namespace KTS.Web.Api
     {
         public static void RegisterWebApiFilters(HttpFilterCollection filters)
         {
-            filters.Add(new SharedApiKeyFilter());
+            //filters.Add(new SharedApiKeyFilter());
         }
     }
 }

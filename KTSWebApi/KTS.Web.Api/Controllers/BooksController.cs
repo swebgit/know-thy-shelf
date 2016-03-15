@@ -11,6 +11,7 @@ using System.Web.Http;
 namespace KTS.Web.Api.Controllers
 {
     [RoutePrefix("api/books")]
+    [SharedApiKeyFilter]
     public class BooksController : ClaimsEnabledController
     {
         private IDatabaseClient databaseClient;
