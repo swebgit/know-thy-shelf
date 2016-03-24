@@ -71,7 +71,7 @@ namespace KTS.Web.Api.Providers
             if (isValidClaim?.Value == "IsValid" && securityToken.ValidFrom <= DateTime.UtcNow && securityToken.ValidTo >= DateTime.UtcNow)
             {
                 result.ResultCode = Enums.ResultCode.Ok;
-                result.Data.AddRange(principal.Claims);
+                result.Data = principal.Claims.ToList();
             }
             return result;
         }

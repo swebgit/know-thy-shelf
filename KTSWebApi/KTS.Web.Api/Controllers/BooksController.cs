@@ -31,7 +31,23 @@ namespace KTS.Web.Api.Controllers
             try
             {
                 var book = await this.databaseClient.GetBookAsync(id);
-                return Ok(new ApiResult<JObject>(book.JObject, book != null));
+                return Ok(new Result<JObject>(book.JObject, book != null ? ResultCode.Ok : ResultCode.Failed));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new Result(ex.ToString()));
+            }
+        }
+
+        // GET: api/books/{pageNumber}/{pageSize}/{orderBy}/{orderDirection}
+        [HttpGet]
+        [Route("{pageNumber:min(0)}/{pageSize:min(1)}")]
+        public async Task<IHttpActionResult> GetBooks(int pageNumber, int pageSize)
+        {
+            try
+            {
+                var books = await this.searchClient.GetBooksAsync(pageNumber, pageSize);
+                return Ok(new Result<JToken>(books, books != null ? ResultCode.Ok : ResultCode.Failed));
             }
             catch (Exception ex)
             {
@@ -59,7 +75,7 @@ namespace KTS.Web.Api.Controllers
                     if (book.ObjectId.HasValue)
                     {
                         await this.searchClient.CreateOrUpdateBookIndexAsync(book);
-                        return Ok(book.ObjectId.Value);
+                        return Ok(new Result<ObjectIdResult>(new ObjectIdResult { ObjectId = book.ObjectId.Value }));
                     }
                     else
                     {
@@ -86,7 +102,7 @@ namespace KTS.Web.Api.Controllers
                 {
                     result &= await this.searchClient.DeleteBookIndexAsync(id);
                 }
-                return Ok(new Result(result));
+                return Ok(new Result(result ? ResultCode.Ok : ResultCode.Failed));
             }
             catch (Exception ex)
             {

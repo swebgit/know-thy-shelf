@@ -1,5 +1,6 @@
 ﻿using KTS.Web.Objects;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace KTS.Web.Interfaces
@@ -9,5 +10,7 @@ namespace KTS.Web.Interfaces
         Task<bool> CreateOrUpdateBookIndexAsync(DatabaseJObject book);
 
         Task<bool> DeleteBookIndexAsync(int id);
+
+        Task<JToken> GetBooksAsync(int pageNumber, int pageSize);
     }
 }

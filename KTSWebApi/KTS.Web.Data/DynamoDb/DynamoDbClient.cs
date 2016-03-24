@@ -111,7 +111,7 @@ namespace KTS.Web.Data.DynamoDb
             {
                 result.ResultCode = ResultCode.Ok;
                 ActivityClaim claim;
-                result.Data.AddRange(user[DatabaseFields.USER_CLAIMS].SS.Select(c => Enum.TryParse(c, out claim) ? claim : ActivityClaim.None).Where(c => c != ActivityClaim.None));
+                result.Data = user[DatabaseFields.USER_CLAIMS].SS.Select(c => Enum.TryParse(c, out claim) ? claim : ActivityClaim.None).Where(c => c != ActivityClaim.None).ToList();
             }
             return result;
         }

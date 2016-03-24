@@ -62,5 +62,17 @@ namespace KTS.Web.Search.Algolia
             await PrimaryIndex.DeleteObjectAsync(id.ToString());
             return true;
         }
+        
+        public async Task<JToken> GetBooksAsync(int pageNumber, int pageSize)
+        {
+            var query = new Query();
+            query.SetNbHitsPerPage(pageSize);
+            query.SetPage(pageNumber);
+            query.SetAttributesToRetrieve(new[] { "objectId", "title", "author" });
+            query.SetAttributesToHighlight(new string[] { });
+            var queryResult = await this.PrimaryIndex.SearchAsync(query);
+            JToken returnValue;
+            return queryResult.TryGetValue("hits", out returnValue) ? returnValue : null;
+        }
     }
 }

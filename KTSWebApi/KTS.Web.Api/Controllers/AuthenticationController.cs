@@ -33,7 +33,7 @@ namespace KTS.Web.Api.Controllers
             if (credentialValidationResult.ResultCode == ResultCode.Ok)
             {
                 var token = this.tokenProvider.GetToken(credentials.Username, credentialValidationResult.Data);
-                return Ok(new { Token = token });
+                return Ok(new Result<TokenResult>(new TokenResult(token)));
             }
             return Unauthorized();
         }
