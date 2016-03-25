@@ -9,7 +9,7 @@ using System.Web.Http.Controllers;
 using System.Security.Claims;
 using System.Net.Http;
 using Autofac.Integration.WebApi;
-using KTS.Web.Api.Attributes;
+using KTS.Web.Attributes;
 
 namespace KTS.Web.Api.Filters
 {

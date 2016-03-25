@@ -13,5 +13,6 @@ namespace KTS.Web.Interfaces
     {
         string GetToken(string userName, List<ActivityClaim> activityClaims);
         Result<List<Claim>> ParseToken(string token);
+        bool ValidateToken(string token);
     }
 }

@@ -1,4 +1,4 @@
-﻿using KTS.Web.Api.Attributes;
+﻿using KTS.Web.Attributes;
 using KTS.Web.Api.Filters;
 using KTS.Web.Enums;
 using KTS.Web.Interfaces;

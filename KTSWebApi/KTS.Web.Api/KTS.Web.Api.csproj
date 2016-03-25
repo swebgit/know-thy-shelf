@@ -149,7 +149,6 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Attributes\RequiredClaimsAttribute.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\BrowserController.cs" />

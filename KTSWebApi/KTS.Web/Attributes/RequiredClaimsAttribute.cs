@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace KTS.Web.Api.Attributes
+namespace KTS.Web.Attributes
 {
     public class RequiredClaimsAttribute : Attribute
     {

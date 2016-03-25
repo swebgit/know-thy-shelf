@@ -57,6 +57,10 @@ namespace KTS.Web.Auth.Providers
         public Result<List<Claim>> ParseToken(string token)
         {
             var result = new Result<List<Claim>>();
+
+            if (String.IsNullOrEmpty(token))
+                return result;
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var validationParameters = new TokenValidationParameters()
             {
@@ -74,6 +78,29 @@ namespace KTS.Web.Auth.Providers
                 result.Data = principal.Claims.ToList();
             }
             return result;
+        }
+
+        public bool ValidateToken(string token)
+        {
+            if (String.IsNullOrEmpty(token))
+                return false;
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var validationParameters = new TokenValidationParameters()
+            {
+                ValidAudience = "https://api.knowthyshelf.com",
+                IssuerSigningToken = new BinarySecretSecurityToken(TOKEN_SECURITY_KEY),
+                ValidIssuer = "self"
+            };
+
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
+            var isValidClaim = principal.Claims.FirstOrDefault();
+            if (isValidClaim?.Value == "IsValid" && securityToken.ValidFrom <= DateTime.UtcNow && securityToken.ValidTo >= DateTime.UtcNow)
+            {
+                return true;
+            }
+            return false;
         }
 
         private static byte[] GetBytes(string input)
