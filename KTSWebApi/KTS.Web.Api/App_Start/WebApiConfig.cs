@@ -6,9 +6,9 @@ using KTS.Web.Data.DynamoDb;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Routing;
-using KTS.Web.Api.Providers;
 using KTS.Web.Api.Filters;
 using KTS.Web.Api.Controllers;
+using KTS.Web.Auth.Providers;
 
 namespace KTS.Web.Api
 {

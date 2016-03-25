@@ -11,7 +11,7 @@ using System.Security.Claims;
 using System.ServiceModel.Security.Tokens;
 using System.Web;
 
-namespace KTS.Web.Api.Providers
+namespace KTS.Web.Auth.Providers
 {
     public class JwtProvider : ITokenProvider
     {
