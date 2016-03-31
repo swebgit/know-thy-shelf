@@ -2,7 +2,6 @@
 using Autofac.Integration.Mvc;
 using KTS.Web.Api.Client;
 using KTS.Web.Auth.Providers;
-using KTS.Web.Data.DynamoDb;
 using KTS.Web.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -34,7 +33,6 @@ namespace KTS.Web.AdminApp
 
             // OPTIONAL: Enable property injection into action filters.
             builder.RegisterFilterProvider();
-            builder.RegisterType<DynamoDbClient>().As<IDatabaseClient>();
             builder.RegisterType<JwtProvider>().As<ITokenProvider>();
             builder.RegisterType<KTSApiClient>().As<IKTSApiClient>();
 

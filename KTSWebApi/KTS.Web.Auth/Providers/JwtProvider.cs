@@ -16,14 +16,7 @@ namespace KTS.Web.Auth.Providers
     public class JwtProvider : ITokenProvider
     {
         private static readonly byte[] TOKEN_SECURITY_KEY = GetBytes(ConfigurationManager.AppSettings["TokenSecurityKey"]);
-
-        private IDatabaseClient databaseClient;
-
-        public JwtProvider(IDatabaseClient databaseClient)
-        {
-            this.databaseClient = databaseClient;
-        }
-
+        
         //http://blog.asteropesystems.com/securing-web-api-requests-with-json-web-tokens/
 
         public string GetToken(string username, List<ActivityClaim> activityClaims)

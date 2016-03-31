@@ -177,7 +177,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <None Include="Web.SECRETS.config" />
+    <None Include="Web.SECRETS.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -203,10 +205,6 @@
     <ProjectReference Include="..\KTS.Web.Auth\KTS.Web.Auth.csproj">
       <Project>{1e131b73-bbc6-4d1b-b813-4be042119ee5}</Project>
       <Name>KTS.Web.Auth</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KTS.Web.Data\KTS.Web.Data.csproj">
-      <Project>{9339eeae-7b1d-456b-af17-418e4ecded5f}</Project>
-      <Name>KTS.Web.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\KTS.Web\KTS.Web.csproj">
       <Project>{30de8510-a267-4269-bcd8-bc860bf58d1e}</Project>
