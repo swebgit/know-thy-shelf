@@ -22,19 +22,24 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                 </ul>
-                <p class="navbar-text navbar-right">
                     @if (String.IsNullOrEmpty(this.User?.Identity?.Name))
                     {
-                        @:Welcome! @Html.ActionLink("Login here", "Login", "Account").
+                        <p class="navbar-text navbar-right">
+                            Welcome! @Html.ActionLink("Login here", "Login", "Account").
+                        </p>
                     }
                     else
                     {
-                        @:Welcome, @this.User.Identity.Name.
-                    } 
-            </p>
+                        using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { @class = "form-inline navbar-right", id = "form-logout" }))
+                        {
+                            <p class="navbar-text navbar-right">
+                                Welcome, @this.User.Identity.Name! <a href="#" onclick="document.getElementById('form-logout').submit();">Logout here</a>.
+                            </p>
+                        }
+                    }
+            </div>
         </div>
     </div>
-</div>
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -44,7 +49,7 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
-                        @Scripts.Render("~/bundles/bootstrap")
-                        @RenderSection("scripts", required: false)
-                    </body>
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
 </html>

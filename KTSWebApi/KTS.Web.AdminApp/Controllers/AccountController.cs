@@ -40,8 +40,14 @@ namespace KTS.Web.AdminApp.Controllers
             if (loginResult.ResultCode == ResultCode.Ok)
             {
                 // Save Auth token to a cookie
-                this.ControllerContext.HttpContext.Response.Cookies.Remove("KTS-AuthToken");
-                this.ControllerContext.HttpContext.Response.Cookies.Add(new HttpCookie("KTS-AuthToken", loginResult.Data.Token));
+                var authCookie = this.ControllerContext.HttpContext.Request.Cookies["KTS-AuthToken"];
+                if (authCookie == null)
+                {
+                    authCookie = new HttpCookie("KTS-AuthToken");
+                }
+                authCookie.Value = loginResult.Data.Token;
+                authCookie.Expires = DateTime.UtcNow.AddDays(30);
+                this.ControllerContext.HttpContext.Response.Cookies.Set(authCookie);
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -50,6 +56,19 @@ namespace KTS.Web.AdminApp.Controllers
                 viewModel.Password = String.Empty;
                 return RedirectToAction("Login", "Account", viewModel);
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Logout()
+        {
+            // Expire the auth cookie to delete it
+            var authCookie = this.ControllerContext.HttpContext.Request.Cookies["KTS-AuthToken"];
+            if (authCookie != null)
+            {
+                authCookie.Expires = DateTime.UtcNow.AddDays(-30);
+                this.ControllerContext.HttpContext.Response.Cookies.Set(authCookie);
+            }
+            return RedirectToAction("Index", "Home", new { loggedOut = true });
         }
     }
 }

@@ -10,7 +10,7 @@ namespace KTS.Web.AdminApp.Controllers
     [JwtOptionalAuthorize]
     public class HomeController : BaseController
     {
-        public ActionResult Index()
+        public ActionResult Index(bool loggedOut = false)
         {
             return View();
         }
