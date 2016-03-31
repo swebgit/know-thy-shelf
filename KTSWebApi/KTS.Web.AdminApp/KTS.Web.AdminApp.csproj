@@ -129,6 +129,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Attributes\JwtIdentity.cs" />
+    <Compile Include="Attributes\JwtOptionalAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Attributes\JwtAuthorizeAttribute.cs" />
@@ -136,6 +138,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AccountLoginViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -173,11 +176,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <None Include="Web.SECRETS.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -193,9 +196,17 @@
     <Content Include="Scripts\jquery-2.2.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KTS.Web.Api.Client\KTS.Web.Api.Client.csproj">
+      <Project>{8dee3c30-4f30-478f-81df-9c2a29af9956}</Project>
+      <Name>KTS.Web.Api.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KTS.Web.Auth\KTS.Web.Auth.csproj">
       <Project>{1e131b73-bbc6-4d1b-b813-4be042119ee5}</Project>
       <Name>KTS.Web.Auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KTS.Web.Data\KTS.Web.Data.csproj">
+      <Project>{9339eeae-7b1d-456b-af17-418e4ecded5f}</Project>
+      <Name>KTS.Web.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\KTS.Web\KTS.Web.csproj">
       <Project>{30de8510-a267-4269-bcd8-bc860bf58d1e}</Project>

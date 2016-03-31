@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
+using KTS.Web.Api.Client;
 using KTS.Web.Auth.Providers;
+using KTS.Web.Data.DynamoDb;
 using KTS.Web.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 
-namespace KTS.Web.AdminApp.App_Start
+namespace KTS.Web.AdminApp
 {
     public class AutofacConfig
     {
@@ -32,7 +34,9 @@ namespace KTS.Web.AdminApp.App_Start
 
             // OPTIONAL: Enable property injection into action filters.
             builder.RegisterFilterProvider();
+            builder.RegisterType<DynamoDbClient>().As<IDatabaseClient>();
             builder.RegisterType<JwtProvider>().As<ITokenProvider>();
+            builder.RegisterType<KTSApiClient>().As<IKTSApiClient>();
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();

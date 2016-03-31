@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace KTS.Web.AdminApp.Controllers
 {
+    [JwtOptionalAuthorize]
     public class HomeController : BaseController
     {
         public ActionResult Index()

@@ -14,19 +14,26 @@ namespace KTS.Web.AdminApp.Attributes
 {
     public class JwtAuthorizeAttribute : AuthorizeAttribute
     {
-        private ITokenProvider tokenProvider { get; set; }
+        public ITokenProvider TokenProvider { get; set; }
 
-        private string token { get; set; }
+        protected string token { get; set; }
         
+        protected bool authorizationRequired { get; set; }
+
+        public JwtAuthorizeAttribute()
+        {
+            this.authorizationRequired = true;
+        }
+
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             if (httpContext.Request.Cookies.AllKeys.Any(k => k.Equals("KTS-AuthToken", StringComparison.OrdinalIgnoreCase)) &&
-                this.tokenProvider.ValidateToken(httpContext.Request.Cookies["KTS-AuthToken"].Value))
+                this.TokenProvider.ValidateToken(httpContext.Request.Cookies["KTS-AuthToken"].Value))
             {
                 this.token = httpContext.Request.Cookies["KTS-AuthToken"].Value;
                 return true;
             }
-            return false;
+            return !this.authorizationRequired || false;
         }
 
         public override void OnAuthorization(AuthorizationContext filterContext)
@@ -36,7 +43,7 @@ namespace KTS.Web.AdminApp.Attributes
             if (!String.IsNullOrEmpty(this.token))
             {
                 filterContext.Controller.TempData["jwt"] = this.token;
-                var tokenClaimsResult = this.tokenProvider.ParseToken(this.token);
+                var tokenClaimsResult = this.TokenProvider.ParseToken(this.token);
                 if (tokenClaimsResult.ResultCode == ResultCode.Ok)
                 {
                     filterContext.Controller.TempData["jwt_claims"] = tokenClaimsResult.Data;
@@ -61,7 +68,8 @@ namespace KTS.Web.AdminApp.Attributes
                 }
             }
 
-            HandleUnauthorizedRequest(filterContext);
+            if (this.authorizationRequired)
+                HandleUnauthorizedRequest(filterContext);
         }
     }
 }
