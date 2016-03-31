@@ -235,3 +235,4 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 KTSWebApi/KTS.Web.Api/Web.SECRETS.config
+/KTSWebApi/KTS.Web.AdminApp/Web.SECRETS.config
