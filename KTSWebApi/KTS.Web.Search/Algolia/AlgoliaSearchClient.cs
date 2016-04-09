@@ -63,9 +63,9 @@ namespace KTS.Web.Search.Algolia
             return true;
         }
         
-        public async Task<JToken> GetBooksAsync(int pageNumber, int pageSize)
+        public async Task<JToken> GetBooksAsync(string searchString, int pageNumber, int pageSize)
         {
-            var query = new Query();
+            var query = new Query(searchString);
             query.SetNbHitsPerPage(pageSize);
             query.SetPage(pageNumber);
             query.SetAttributesToRetrieve(new[] { "objectId", "title", "author" });

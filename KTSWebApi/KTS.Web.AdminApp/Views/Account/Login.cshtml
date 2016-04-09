@@ -3,6 +3,12 @@
     ViewBag.Title = "Login";
 }
 
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Login</h2>
+    </div>
+</div>
+
 @using (Html.BeginForm("Login", "Account", FormMethod.Post))
 {
     @Html.AntiForgeryToken()

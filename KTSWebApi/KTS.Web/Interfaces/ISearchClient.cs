@@ -11,6 +11,6 @@ namespace KTS.Web.Interfaces
 
         Task<bool> DeleteBookIndexAsync(int id);
 
-        Task<JToken> GetBooksAsync(int pageNumber, int pageSize);
+        Task<JToken> GetBooksAsync(string searchString, int pageNumber, int pageSize);
     }
 }

@@ -39,14 +39,14 @@ namespace KTS.Web.Api.Controllers
             }
         }
 
-        // GET: api/books/{pageNumber}/{pageSize}/{orderBy}/{orderDirection}
+        // GET: api/books/{pageNumber}/{pageSize}
         [HttpGet]
         [Route("{pageNumber:min(0)}/{pageSize:min(1)}")]
-        public async Task<IHttpActionResult> GetBooks(int pageNumber, int pageSize)
+        public async Task<IHttpActionResult> GetBooks(int pageNumber, int pageSize, string searchString = null)
         {
             try
             {
-                var books = await this.searchClient.GetBooksAsync(pageNumber, pageSize);
+                var books = await this.searchClient.GetBooksAsync(searchString, pageNumber, pageSize);
                 return Ok(new Result<JToken>(books, books != null ? ResultCode.Ok : ResultCode.Failed));
             }
             catch (Exception ex)

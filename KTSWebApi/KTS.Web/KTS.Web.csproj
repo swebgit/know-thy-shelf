@@ -58,6 +58,7 @@
     <Compile Include="Interfaces\IKTSApiClient.cs" />
     <Compile Include="Interfaces\ISearchClient.cs" />
     <Compile Include="Interfaces\ITokenProvider.cs" />
+    <Compile Include="Objects\Book.cs" />
     <Compile Include="Objects\Credentials.cs" />
     <Compile Include="Objects\DatabaseJObject.cs" />
     <Compile Include="Objects\ObjectIdResult.cs" />

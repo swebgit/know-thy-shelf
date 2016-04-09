@@ -56,7 +56,7 @@ namespace KTS.Web.AdminApp.Attributes
                 {
                     var requiredClaims = ((filterContext.ActionDescriptor.ControllerDescriptor.GetCustomAttributes(typeof(RequiredClaimsAttribute), false).FirstOrDefault() as RequiredClaimsAttribute)?.RequiredClaims ?? ActivityClaim.None) |
                                          ((filterContext.ActionDescriptor.GetCustomAttributes(typeof(RequiredClaimsAttribute), false).FirstOrDefault() as RequiredClaimsAttribute)?.RequiredClaims ?? ActivityClaim.None);
-                    
+
                     foreach (var claim in tokenClaimsResult.Data.Where(c => c.Type == ClaimTypes.UserData))
                     {
                         ActivityClaim activityClaim;
@@ -66,6 +66,8 @@ namespace KTS.Web.AdminApp.Attributes
                         }
                     }
                 }
+                else
+                    return;
             }
 
             if (this.authorizationRequired)

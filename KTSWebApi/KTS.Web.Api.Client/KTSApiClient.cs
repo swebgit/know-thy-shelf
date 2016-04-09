@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Configuration;
 using System.Net;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace KTS.Web.Api.Client
 {
@@ -21,6 +22,7 @@ namespace KTS.Web.Api.Client
 #endif
 
         private const string LOGIN_CONTROLLER = "api/auth";
+        private const string BOOKS_CONTROLLER = "api/books";
 
         private const string AUTH_TOKEN_HEADER = "auth-token";
         private const string API_KEY_HEADER = "api-key";
@@ -38,8 +40,22 @@ namespace KTS.Web.Api.Client
         public async Task<Result<TokenResult>> LogOn(Credentials credentials)
         {
             var json = JsonConvert.SerializeObject(credentials);
-            var response = await this.SendHttpRequestAsync(HttpMethod.Post, LOGIN_CONTROLLER, null, json);
+            return await this.SendHttpRequestAsync<TokenResult>(HttpMethod.Post, LOGIN_CONTROLLER, null, json);
+        }
 
+        public async Task<Result<List<Book>>> GetBooks(string searchString, int pageNumber, int pageSize, string authToken)
+        {
+            var responseResult = await this.SendHttpRequestAsync<JToken>(HttpMethod.Get, $"{BOOKS_CONTROLLER}/{pageNumber}/{pageSize}/?searchString={searchString}", authToken);
+
+            if (responseResult.ResultCode == Enums.ResultCode.Ok)
+            {
+                return new Result<List<Book>>(JsonConvert.DeserializeObject<List<Book>>(responseResult.Data.ToString()));
+            }
+            return new Result<List<Book>>(responseResult);
+        }
+
+        private async Task<Result<T>> DeserializeResponse<T>(HttpResponseMessage response) where T : class
+        {
             if (response.IsSuccessStatusCode)
             {
                 using (var content = response.Content)
@@ -48,15 +64,16 @@ namespace KTS.Web.Api.Client
 
                     if (!string.IsNullOrEmpty(contentString))
                     {
-                        return JsonConvert.DeserializeObject<Result<TokenResult>>(contentString);
+                        return JsonConvert.DeserializeObject<Result<T>>(contentString);
                     }
                 }
             }
 
-            return new Result<TokenResult>();
-        }
+            return new Result<T>();
+        } 
 
-        private async Task<HttpResponseMessage> SendHttpRequestAsync(HttpMethod method, string route, string authToken = null, string jsonContent = null, TimeSpan? timeout = null)
+        private async Task<Result<T>> SendHttpRequestAsync<T>(HttpMethod method, string route, string authToken = null, string jsonContent = null, TimeSpan? timeout = null)
+             where T : class
         {
             var request = new HttpRequestMessage
             {
@@ -81,22 +98,37 @@ namespace KTS.Web.Api.Client
 
             this.httpClient.Timeout = timeout ?? DEFAULT_TIMEOUT;
 
+            HttpResponseMessage response;
+
             try
             {
-                var response = await this.httpClient.SendAsync(request);
-
-                return response;
+                response = await this.httpClient.SendAsync(request);
             }
             catch (TaskCanceledException)
             {
                 // TaskCanceled Exception is thrown if the timeout is exceeded
-                return new HttpResponseMessage(HttpStatusCode.RequestTimeout);
+                response = new HttpResponseMessage(HttpStatusCode.RequestTimeout);
             }
             catch (Exception)
             {
                 // if we don't know what caused the exception, returned the Unused code
-                return new HttpResponseMessage(HttpStatusCode.Unused);
+                response = new HttpResponseMessage(HttpStatusCode.Unused);
             }
+
+            if (response.IsSuccessStatusCode)
+            {
+                using (var content = response.Content)
+                {
+                    var contentString = await content.ReadAsStringAsync();
+
+                    if (!string.IsNullOrEmpty(contentString))
+                    {
+                        return JsonConvert.DeserializeObject<Result<T>>(contentString);
+                    }
+                }
+            }
+
+            return new Result<T>();
         }
     }
 }
