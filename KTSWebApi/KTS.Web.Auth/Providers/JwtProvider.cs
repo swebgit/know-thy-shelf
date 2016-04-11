@@ -87,12 +87,20 @@ namespace KTS.Web.Auth.Providers
             };
 
             SecurityToken securityToken;
-            var principal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
-            var isValidClaim = principal.Claims.FirstOrDefault();
-            if (isValidClaim?.Value == "IsValid" && securityToken.ValidFrom <= DateTime.UtcNow && securityToken.ValidTo >= DateTime.UtcNow)
+            try
             {
-                return true;
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
+                var isValidClaim = principal.Claims.FirstOrDefault();
+                if (isValidClaim?.Value == "IsValid" && securityToken.ValidFrom <= DateTime.UtcNow && securityToken.ValidTo >= DateTime.UtcNow)
+                {
+                    return true;
+                }
             }
+            catch (SecurityTokenExpiredException ex)
+            {
+
+            }
+
             return false;
         }
 

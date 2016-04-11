@@ -1,0 +1,44 @@
+﻿@model List<Book>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (this.Model == null || this.Model.Count <= 0)
+            {
+                <tr>
+                    <td colspan="3">No Books Found</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var book in this.Model)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td>@book.Author</td>
+                        <td>@Html.ActionLink("Edit", "Edit", "Books", new { id = book.ObjectId }, null)</td>
+                    </tr>
+                }
+                <tr id="show-next-books-row">
+                    <td colspan="3">
+                        @using (Ajax.BeginForm("GetBooks", "Books", new { pageNumber = 1, pageSize = 1 }, new AjaxOptions { HttpMethod = "Get", InsertionMode = InsertionMode.ReplaceWith, UpdateTargetId = "show-next-books-row" }))
+                        {
+                            <button type="submit" class="btn">Show next book</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
