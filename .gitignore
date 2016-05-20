@@ -236,3 +236,6 @@ _Pvt_Extensions
 .fake/
 KTSWebApi/KTS.Web.Api/Web.SECRETS.config
 /KTSWebApi/KTS.Web.AdminApp/Web.SECRETS.config
+/KTSWebApi/KTS.Web.AdminApp/Assemblies/Kendo.Mvc.dll
+/KTSWebApi/KTS.Web.AdminApp/Content/kendo
+/KTSWebApi/KTS.Web.AdminApp/Scripts/kendo

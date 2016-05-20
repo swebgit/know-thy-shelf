@@ -32,9 +32,9 @@
                 }
                 <tr id="show-next-books-row">
                     <td colspan="3">
-                        @using (Ajax.BeginForm("GetBooks", "Books", new { pageNumber = 1, pageSize = 1 }, new AjaxOptions { HttpMethod = "Get", InsertionMode = InsertionMode.ReplaceWith, UpdateTargetId = "show-next-books-row" }))
+                        @using (Ajax.BeginForm("GetBooks", "Books", new { pageNumber = 1, pageSize = 10 }, new AjaxOptions { HttpMethod = "Get", InsertionMode = InsertionMode.ReplaceWith, UpdateTargetId = "show-next-books-row" }))
                         {
-                            <button type="submit" class="btn">Show next book</button>
+                            <button type="submit" class="btn">Show more</button>
                         }
                     </td>
                 </tr>

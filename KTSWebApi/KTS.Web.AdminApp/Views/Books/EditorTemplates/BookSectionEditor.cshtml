@@ -1,0 +1,19 @@
+﻿@model BookEditSectionViewModel
+
+@Html.HiddenFor(model => model.DisplayOrder)
+<div class="form-group">
+    @Html.LabelFor(model => model.Title)
+    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Title)
+</div>
+<div class="pull-right">
+    <!-- TODO: Build the Up/Down/Delete Buttons -->
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-align-left"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-align-left"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-align-left"></span></button>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.Content)
+    @(Html.Kendo().EditorFor(model => model.Content).Tools(tools => tools.ViewHtml()))
+</div>
+

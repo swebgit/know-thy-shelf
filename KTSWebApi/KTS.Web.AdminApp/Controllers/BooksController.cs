@@ -1,6 +1,7 @@
 ﻿using KTS.Web.AdminApp.Attributes;
 using KTS.Web.AdminApp.ViewModels;
 using KTS.Web.Attributes;
+using KTS.Web.Enums;
 using KTS.Web.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace KTS.Web.AdminApp.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            var booksData = await this.apiClient.GetBooks(null, 0, 1, this.Token);
+            var booksData = await this.apiClient.GetBooks(null, 0, 10, this.Token);
             if (booksData.ResultCode == Enums.ResultCode.Ok)
             {
                 return View(booksData.Data);
@@ -52,15 +53,25 @@ namespace KTS.Web.AdminApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id, string message = null)
         {
-            return View();
+            var bookData = await this.apiClient.GetBook(id);
+            if (bookData.ResultCode == Enums.ResultCode.Ok)
+            {
+                var viewModel = new BooksEditViewModel(bookData.Data);
+                return View(viewModel);
+            }
+            else
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]
-        public ActionResult Edit()
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(BooksEditViewModel viewModel)
         {
-            return RedirectToAction("Edit", new { id = 1 });
+            return RedirectToAction("Edit", new { id = viewModel.ObjectId, message = "Save Successful" });
         }
     }
 }

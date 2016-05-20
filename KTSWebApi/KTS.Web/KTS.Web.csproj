@@ -54,6 +54,7 @@
     <Compile Include="Enums\DatabaseFields.cs" />
     <Compile Include="Enums\DatabaseObjectType.cs" />
     <Compile Include="Enums\ResultCode.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Interfaces\IDatabaseClient.cs" />
     <Compile Include="Interfaces\IKTSApiClient.cs" />
     <Compile Include="Interfaces\ISearchClient.cs" />

@@ -13,5 +13,7 @@ namespace KTS.Web.Interfaces
         Task<Result<TokenResult>> LogOn(Credentials credentials);
 
         Task<Result<List<Book>>> GetBooks(string searchString, int pageNumber, int pageSize, string authToken);
+
+        Task<Result<JObject>> GetBook(int id);
     }
 }

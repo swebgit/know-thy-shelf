@@ -1,0 +1,27 @@
+﻿@model List<string>
+
+@{
+    var genres = new List<string>
+    {
+        "Bildungsroman",
+        "Crime",
+        "Dystopia",
+        "Fantasy",
+        "Historical Fiction",
+        "Literature",
+        "Magical Realism",
+        "Mystery",
+        "Political Fiction",
+        "Romance",
+        "Satire",
+        "Science Fiction",
+        "Southern Gothic",
+        "War"
+    };
+}
+
+@(Html.Kendo().MultiSelectFor(model => model)
+    .Placeholder("Select genres...")
+    .BindTo(genres)
+    .HtmlAttributes(new { @style="max-width:350px;" })
+    .Value(Model))

@@ -14,5 +14,10 @@ namespace KTS.Web.AdminApp.Controllers
         {
             return View();
         }
+
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

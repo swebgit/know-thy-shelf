@@ -43,6 +43,11 @@ namespace KTS.Web.Api.Client
             return await this.SendHttpRequestAsync<TokenResult>(HttpMethod.Post, LOGIN_CONTROLLER, null, json);
         }
 
+        public async Task<Result<JObject>> GetBook(int id)
+        {
+            return await this.SendHttpRequestAsync<JObject>(HttpMethod.Get, $"{BOOKS_CONTROLLER}/{id}");
+        }
+
         public async Task<Result<List<Book>>> GetBooks(string searchString, int pageNumber, int pageSize, string authToken)
         {
             var responseResult = await this.SendHttpRequestAsync<JToken>(HttpMethod.Get, $"{BOOKS_CONTROLLER}/{pageNumber}/{pageSize}/?searchString={searchString}", authToken);
