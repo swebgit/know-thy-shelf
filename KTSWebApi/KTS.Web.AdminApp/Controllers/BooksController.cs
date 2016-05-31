@@ -73,5 +73,28 @@ namespace KTS.Web.AdminApp.Controllers
         {
             return RedirectToAction("Edit", new { id = viewModel.ObjectId, message = "Save Successful" });
         }
+
+        [HttpPost]
+        public ActionResult AddSection(BooksEditViewModel viewModel)
+        {
+            if (viewModel != null)
+            {
+                int maxDisplayOrder;
+                if (viewModel.Sections == null)
+                {
+                    viewModel.Sections = new List<BookEditSectionViewModel>();
+                    maxDisplayOrder = 0;
+                }
+                else
+                {
+                    maxDisplayOrder = viewModel.Sections.Max(s => s.DisplayOrder);
+                }
+
+                viewModel.Sections.ForEach(s => s.Content = HttpUtility.HtmlDecode(s.Content));
+                viewModel.Sections.Add(new BookEditSectionViewModel() { DisplayOrder = maxDisplayOrder + 1 });
+                return PartialView ("EditorTemplates/BookSectionEditor", viewModel);
+            }
+            return this.HttpNotFound();
+        }
     }
 }

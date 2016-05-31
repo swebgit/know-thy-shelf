@@ -35,7 +35,7 @@ namespace KTS.Web.Auth.Providers
                 Subject = claims,
                 TokenIssuerName = "self",
                 AppliesToAddress = "https://api.knowthyshelf.com",
-                Lifetime = new Lifetime(now, now.AddMinutes(60)),
+                Lifetime = new Lifetime(now, now.AddYears(10)),
                 SigningCredentials = new SigningCredentials(new InMemorySymmetricSecurityKey(TOKEN_SECURITY_KEY),
                   "http://www.w3.org/2001/04/xmldsig-more#hmac-sha256",
                   "http://www.w3.org/2001/04/xmlenc#sha256"),

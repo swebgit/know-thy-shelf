@@ -5,7 +5,7 @@
 
 <h2>Edit Book</h2>
 
-@using (Html.BeginForm("Edit", "Books", FormMethod.Post, new { @class = "kts-form" }))
+@using (Html.BeginForm("Edit", "Books", FormMethod.Post, new { @class = "kts-form", id = "book-edit-form" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ObjectId)
@@ -70,11 +70,14 @@
         @Html.ValidationMessageFor(model => model.Permalink)
     </div>
     <h3>Sections</h3>
-    for(var i = 0; i < Model.Sections.Count; i++)
-    {
-        @Html.EditorFor(model => model.Sections[i], "BookSectionEditor")
-    }
+    <div id="book-sections">
+        @Html.EditorFor(model => model, "BookSectionEditor")
+    </div>
+    <button type="button" id="add-new-section" class="btn btn-default">Add New Section</button>
     <button type="submit" class="btn btn-default">Save</button>
 }
 
 
+@section scripts {
+    <script type="text/javascript">kts.editPage.intialize();</script>
+}

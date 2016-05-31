@@ -1,19 +1,34 @@
-﻿@model BookEditSectionViewModel
+﻿@model BooksEditViewModel
 
-@Html.HiddenFor(model => model.DisplayOrder)
-<div class="form-group">
-    @Html.LabelFor(model => model.Title)
-    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
-    @Html.ValidationMessageFor(model => model.Title)
-</div>
-<div class="pull-right">
-    <!-- TODO: Build the Up/Down/Delete Buttons -->
-    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-align-left"></span></button>
-    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-align-left"></span></button>
-    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-align-left"></span></button>
-</div>
-<div class="form-group">
-    @Html.LabelFor(model => model.Content)
-    @(Html.Kendo().EditorFor(model => model.Content).Tools(tools => tools.ViewHtml()))
-</div>
+<hr />
+@for (var i = 0; i < Model.Sections.Count; i++)
+{
+    <div class="book-section">
+        @Html.HiddenFor(model => model.Sections[i].DisplayOrder)
+
+        <div class="pull-right" style="margin-top:25px;">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <button type="button" data-book-section="up-button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button type="button" data-book-section="down-button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" data-book-section="remove-button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sections[i].Title)
+            @Html.TextBoxFor(model => model.Sections[i].Title, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Sections[i].Title)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sections[i].Content)
+            @(Html.Kendo().EditorFor(model => model.Sections[i].Content).Tools(tools => tools.ViewHtml()).Encode(false))
+        </div>
+    </div>
+    <hr />
+}
 

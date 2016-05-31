@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace KTS.Web.AdminApp.ViewModels
 {
@@ -51,6 +52,7 @@ namespace KTS.Web.AdminApp.ViewModels
     public class BookEditSectionViewModel
     {
         public string Title { get; set; }
+        [AllowHtml]
         public string Content { get; set; }
         public int DisplayOrder { get; set; }
     }

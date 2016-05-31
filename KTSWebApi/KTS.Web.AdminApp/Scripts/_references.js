@@ -7,6 +7,7 @@
 /// <reference path="jquery-2.2.2.min.js" />
 /// <reference path="kendo/kendo.all.min.js" />
 /// <reference path="kendo/kendo.aspnetmvc.min.js" />
+/// <reference path="kts.edit.js" />
 /// <reference path="modernizr-2.8.3.js" />
 /// <reference path="respond.matchmedia.addlistener.min.js" />
 /// <reference path="respond.min.js" />

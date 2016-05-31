@@ -36,6 +36,9 @@ namespace KTS.Web.AdminApp
                       "~/Content/kendo/kendo.common-bootstrap.min.css",
                       "~/Content/kendo/kendo.bootstrap.min.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/kts").Include(
+                      "~/Scripts/kts.edit.js"));
+
             bundles.IgnoreList.Clear();
         }
     }
