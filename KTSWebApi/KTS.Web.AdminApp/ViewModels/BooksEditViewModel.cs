@@ -34,7 +34,8 @@ namespace KTS.Web.AdminApp.ViewModels
 
         public BooksEditViewModel()
         {
-
+            this.Genres = new List<string>();
+            this.Sections = new List<BookEditSectionViewModel>();
         }
 
         public BooksEditViewModel(JObject jsonData)
@@ -43,8 +44,40 @@ namespace KTS.Web.AdminApp.ViewModels
             this.Title = jsonData.GetValue<string>(DatabaseFields.TITLE);
             this.Author = jsonData.GetValue<string>(DatabaseFields.AUTHOR);
             this.CoverUrl = jsonData.GetValue<string>(DatabaseFields.COVER_URL);
+            this.Publisher = jsonData.GetValue<string>(DatabaseFields.PUBLISHER);
+            this.PublisherLocation = jsonData.GetValue<string>(DatabaseFields.PUBLISHER_LOCATION);
+            this.PublishedDate = jsonData.GetValue<string>(DatabaseFields.PUBLISHED_DATE);
             this.Genres = jsonData.GetValue<List<string>>(DatabaseFields.GENRES);
+            this.Pages = jsonData.GetValue<int?>(DatabaseFields.PAGES);
+            this.Price = jsonData.GetValue<decimal?>(DatabaseFields.PRICE);
+            this.PrintRun = jsonData.GetValue<int?>(DatabaseFields.PRINT_RUN);
+            this.Description = jsonData.GetValue<string>(DatabaseFields.DESCRIPTION);
+            this.Permalink = jsonData.GetValue<string>(DatabaseFields.PERMALINK);
             this.Sections = jsonData.GetValue<List<BookEditSectionViewModel>>(DatabaseFields.SECTIONS);
+        }
+
+        public JObject ToJObject()
+        {
+            var jObject = new JObject();
+
+            if (this.ObjectId.HasValue)
+                jObject.Add(DatabaseFields.OBJECT_ID, this.ObjectId);
+
+            jObject.Add(DatabaseFields.TITLE, this.Title);
+            jObject.Add(DatabaseFields.AUTHOR, this.Author);
+            jObject.Add(DatabaseFields.COVER_URL, this.CoverUrl);
+            jObject.Add(DatabaseFields.PUBLISHER, this.Publisher);
+            jObject.Add(DatabaseFields.PUBLISHER_LOCATION, this.PublisherLocation);
+            jObject.Add(DatabaseFields.PUBLISHED_DATE, this.PublishedDate);
+            jObject.Add(DatabaseFields.GENRES, JToken.FromObject(this.Genres));
+            jObject.Add(DatabaseFields.PAGES, this.Pages);
+            jObject.Add(DatabaseFields.PRICE, this.Price);
+            jObject.Add(DatabaseFields.PRINT_RUN, this.PrintRun);
+            jObject.Add(DatabaseFields.DESCRIPTION, this.Description);
+            jObject.Add(DatabaseFields.PERMALINK, this.Permalink);
+            jObject.Add(DatabaseFields.SECTIONS, JToken.FromObject(this.Sections));
+
+            return jObject;
         }
 
     }

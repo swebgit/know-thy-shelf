@@ -23,9 +23,11 @@ namespace KTS.Web.Enums
         public const string DESCRIPTION = "description";
         public const string GENRES = "genres";
         public const string PAGES = "pages";
+        public const string PERMALINK = "permalink";
         public const string PRICE = "price";
         public const string PRINT_RUN = "print_run";
         public const string PUBLISHED_DATE = "published_date";
+        public const string PUBLISHER = "publisher";
         public const string PUBLISHER_LOCATION = "publisher_location";
         public const string SECTIONS = "sections";
         public const string TITLE = "title";

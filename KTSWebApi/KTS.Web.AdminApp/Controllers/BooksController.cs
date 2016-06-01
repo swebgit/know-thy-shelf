@@ -69,8 +69,12 @@ namespace KTS.Web.AdminApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(BooksEditViewModel viewModel)
+        public ActionResult Save(BooksEditViewModel viewModel)
         {
+            var jObject = viewModel.ToJObject();
+
+            // TODO: Send the jObject off to the API to save the updated values to AWS and Algolia
+
             return RedirectToAction("Edit", new { id = viewModel.ObjectId, message = "Save Successful" });
         }
 

@@ -5,7 +5,7 @@
 
 <h2>Edit Book</h2>
 
-@using (Html.BeginForm("Edit", "Books", FormMethod.Post, new { @class = "kts-form", id = "book-edit-form" }))
+@using (Html.BeginForm("Save", "Books", FormMethod.Post, new { @class = "kts-form", id = "book-edit-form" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ObjectId)
