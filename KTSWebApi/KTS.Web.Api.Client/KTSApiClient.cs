@@ -48,6 +48,11 @@ namespace KTS.Web.Api.Client
             return await this.SendHttpRequestAsync<JObject>(HttpMethod.Get, $"{BOOKS_CONTROLLER}/{id}");
         }
 
+        public async Task<Result<ObjectIdResult>> SaveBook(JObject bookData, string authToken)
+        {
+            return await this.SendHttpRequestAsync<ObjectIdResult>(HttpMethod.Post, BOOKS_CONTROLLER, authToken, bookData.ToString());
+        }
+
         public async Task<Result<List<Book>>> GetBooks(string searchString, int pageNumber, int pageSize, string authToken)
         {
             var responseResult = await this.SendHttpRequestAsync<JToken>(HttpMethod.Get, $"{BOOKS_CONTROLLER}/{pageNumber}/{pageSize}/?searchString={searchString}", authToken);
@@ -57,6 +62,11 @@ namespace KTS.Web.Api.Client
                 return new Result<List<Book>>(JsonConvert.DeserializeObject<List<Book>>(responseResult.Data.ToString()));
             }
             return new Result<List<Book>>(responseResult);
+        }
+
+        public async Task<Result> DeleteBook(int objectId, string authToken)
+        {
+            return await this.SendHttpRequestAsync(HttpMethod.Delete, $"{BOOKS_CONTROLLER}/{objectId}", authToken);
         }
 
         private async Task<Result<T>> DeserializeResponse<T>(HttpResponseMessage response) where T : class
@@ -78,7 +88,47 @@ namespace KTS.Web.Api.Client
         } 
 
         private async Task<Result<T>> SendHttpRequestAsync<T>(HttpMethod method, string route, string authToken = null, string jsonContent = null, TimeSpan? timeout = null)
-             where T : class
+            where T : class
+        {
+            var response = await this.InternalSendHttpRequestAsync(method, route, authToken, jsonContent, timeout);
+
+            if (response.IsSuccessStatusCode)
+            {
+                using (var content = response.Content)
+                {
+                    var contentString = await content.ReadAsStringAsync();
+
+                    if (!string.IsNullOrEmpty(contentString))
+                    {
+                        return JsonConvert.DeserializeObject<Result<T>>(contentString);
+                    }
+                }
+            }
+
+            return new Result<T>();
+        }
+
+        private async Task<Result> SendHttpRequestAsync(HttpMethod method, string route, string authToken = null, string jsonContent = null, TimeSpan? timeout = null)
+        {
+            var response = await this.InternalSendHttpRequestAsync(method, route, authToken, jsonContent, timeout);
+
+            if (response.IsSuccessStatusCode)
+            {
+                using (var content = response.Content)
+                {
+                    var contentString = await content.ReadAsStringAsync();
+
+                    if (!string.IsNullOrEmpty(contentString))
+                    {
+                        return JsonConvert.DeserializeObject<Result>(contentString);
+                    }
+                }
+            }
+
+            return new Result();
+        }
+
+        private async Task<HttpResponseMessage> InternalSendHttpRequestAsync(HttpMethod method, string route, string authToken, string jsonContent, TimeSpan? timeout)
         {
             var request = new HttpRequestMessage
             {
@@ -88,7 +138,7 @@ namespace KTS.Web.Api.Client
 
             // add the api key header, required for talking with the API
             request.Headers.Add(API_KEY_HEADER, API_KEY_VALUE);
-            
+
             // if the auth token was specified, add it to the request headers
             if (!string.IsNullOrEmpty(authToken))
             {
@@ -120,20 +170,7 @@ namespace KTS.Web.Api.Client
                 response = new HttpResponseMessage(HttpStatusCode.Unused);
             }
 
-            if (response.IsSuccessStatusCode)
-            {
-                using (var content = response.Content)
-                {
-                    var contentString = await content.ReadAsStringAsync();
-
-                    if (!string.IsNullOrEmpty(contentString))
-                    {
-                        return JsonConvert.DeserializeObject<Result<T>>(contentString);
-                    }
-                }
-            }
-
-            return new Result<T>();
+            return response;
         }
     }
 }

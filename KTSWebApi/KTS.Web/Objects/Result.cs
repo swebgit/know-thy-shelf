@@ -18,6 +18,11 @@ namespace KTS.Web.Objects
         [JsonConverter(typeof(StringEnumConverter))]
         public ResultCode ResultCode { get; set; }
         
+        public Result() : this(ResultCode.Failed)
+        {
+
+        }
+
         public Result(ResultCode resultCode = ResultCode.Failed)
         {
             this.ResultCode = resultCode;

@@ -7,10 +7,11 @@
             <td>@book.Title</td>
             <td>@book.Author</td>
             <td>@Html.ActionLink("Edit", "Edit", "Books", new { id = book.ObjectId }, null)</td>
+            <td>@Html.ActionLink("Delete", "Delete", "Books", new { id = book.ObjectId }, null)</td>
         </tr>
     }
     <tr id="show-next-books-row">
-        <td colspan="3">
+        <td colspan="4">
             @using (Ajax.BeginForm("GetBooks", "Books", new { pageNumber = ++this.Model.PageNumber, pageSize = this.Model.PageSize }, new AjaxOptions { HttpMethod = "Get", InsertionMode = InsertionMode.ReplaceWith, UpdateTargetId = "show-next-books-row" }))
             {
                 <button type="submit" class="btn">Show more</button>

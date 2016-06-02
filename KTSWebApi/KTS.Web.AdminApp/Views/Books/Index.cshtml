@@ -4,6 +4,7 @@
 }
 
 <h2>Index</h2>
+@Html.ActionLink("Add New Book", "Edit", "Books", null, null)
 <div class="table-responsive">
     <table class="table">
         <thead>
@@ -11,13 +12,14 @@
                 <th>Title</th>
                 <th>Author</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @if (this.Model == null || this.Model.Count <= 0)
             {
                 <tr>
-                    <td colspan="3">No Books Found</td>
+                    <td colspan="4">No Books Found</td>
                 </tr>
             }
             else
@@ -28,10 +30,11 @@
                         <td>@book.Title</td>
                         <td>@book.Author</td>
                         <td>@Html.ActionLink("Edit", "Edit", "Books", new { id = book.ObjectId }, null)</td>
+                        <td>@Html.ActionLink("Delete", "Delete", "Books", new { id = book.ObjectId }, null)</td>
                     </tr>
                 }
                 <tr id="show-next-books-row">
-                    <td colspan="3">
+                    <td colspan="4">
                         @using (Ajax.BeginForm("GetBooks", "Books", new { pageNumber = 1, pageSize = 10 }, new AjaxOptions { HttpMethod = "Get", InsertionMode = InsertionMode.ReplaceWith, UpdateTargetId = "show-next-books-row" }))
                         {
                             <button type="submit" class="btn">Show more</button>

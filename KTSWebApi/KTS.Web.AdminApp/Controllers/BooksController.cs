@@ -53,29 +53,43 @@ namespace KTS.Web.AdminApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Edit(int id, string message = null)
+        public async Task<ActionResult> Edit(int? id = null, string message = null)
         {
-            var bookData = await this.apiClient.GetBook(id);
-            if (bookData.ResultCode == Enums.ResultCode.Ok)
+            if (id.HasValue)
             {
-                var viewModel = new BooksEditViewModel(bookData.Data);
-                return View(viewModel);
+                var bookData = await this.apiClient.GetBook(id.Value);
+                if (bookData.ResultCode == Enums.ResultCode.Ok)
+                {
+                    var viewModel = new BooksEditViewModel(bookData.Data);
+                    return View(viewModel);
+                }
+                else
+                {
+                    return RedirectToAction("Error", "Home");
+                }
             }
             else
             {
-                return RedirectToAction("Error", "Home");
-            }
+                return View(new BooksEditViewModel());
+            }            
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Save(BooksEditViewModel viewModel)
+        public async Task<ActionResult> Save(BooksEditViewModel viewModel)
         {
             var jObject = viewModel.ToJObject();
 
-            // TODO: Send the jObject off to the API to save the updated values to AWS and Algolia
+            var saveResult = await this.apiClient.SaveBook(jObject, this.Token);
+            if (saveResult.ResultCode == Enums.ResultCode.Ok)
+            {
+                return RedirectToAction("Edit", new { id = saveResult.Data.ObjectId, message = "Save Successful" });
+            }
+            else
+            {
+                return View("Edit", viewModel);
+            }
 
-            return RedirectToAction("Edit", new { id = viewModel.ObjectId, message = "Save Successful" });
         }
 
         [HttpPost]
@@ -84,7 +98,7 @@ namespace KTS.Web.AdminApp.Controllers
             if (viewModel != null)
             {
                 int maxDisplayOrder;
-                if (viewModel.Sections == null)
+                if (viewModel.Sections == null || viewModel.Sections.Count <= 0)
                 {
                     viewModel.Sections = new List<BookEditSectionViewModel>();
                     maxDisplayOrder = 0;
@@ -97,6 +111,17 @@ namespace KTS.Web.AdminApp.Controllers
                 viewModel.Sections.ForEach(s => s.Content = HttpUtility.HtmlDecode(s.Content));
                 viewModel.Sections.Add(new BookEditSectionViewModel() { DisplayOrder = maxDisplayOrder + 1 });
                 return PartialView ("EditorTemplates/BookSectionEditor", viewModel);
+            }
+            return this.HttpNotFound();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var result = await this.apiClient.DeleteBook(id, this.Token);
+            if (result.ResultCode == Enums.ResultCode.Ok)
+            {
+                return RedirectToAction("Index");
             }
             return this.HttpNotFound();
         }
