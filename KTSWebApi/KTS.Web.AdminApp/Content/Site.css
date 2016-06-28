@@ -21,3 +21,8 @@
 .kts-form textarea {
     max-width: 350px;
 }
+
+.kts-cover-image {
+    height: 200px;
+    max-width: 200px;
+}

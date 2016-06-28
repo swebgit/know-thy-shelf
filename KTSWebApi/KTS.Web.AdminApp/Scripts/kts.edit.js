@@ -83,8 +83,16 @@
             addClickToSectionButtons();
         };
 
+        var saveImageUrl = function (inputSelector, imageSelector, url) {
+            $(inputSelector).val(url);
+            $(imageSelector).attr('src', url);
+            $(imageSelector).removeClass('hidden');
+
+        };
+
         return {
-            intialize: initialize
+            intialize: initialize,
+            saveImageUrl: saveImageUrl
         }
     })($, undefined);
 
