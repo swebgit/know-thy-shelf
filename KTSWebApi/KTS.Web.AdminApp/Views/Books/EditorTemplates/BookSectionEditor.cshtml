@@ -6,19 +6,18 @@
     <div class="book-section">
         @Html.HiddenFor(model => model.Sections[i].DisplayOrder)
 
-        <div class="pull-right" style="margin-top:25px;">
-            <div class="btn-toolbar">
-                <div class="btn-group">
-                    <button type="button" data-book-section="up-button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                    <button type="button" data-book-section="down-button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                </div>
-                <div class="btn-group">
-                    <button type="button" data-book-section="remove-button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+        <div class="form-group">
+            <div class="pull-right" style="margin-top:25px;">
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <button type="button" data-book-section="up-button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button type="button" data-book-section="down-button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" data-book-section="remove-button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.Sections[i].Title)
             @Html.TextBoxFor(model => model.Sections[i].Title, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Sections[i].Title)

@@ -28,6 +28,7 @@ namespace KTS.Web.AdminApp.ViewModels
         public decimal? Price { get; set; }
         [Display(Name = "Print Run")]
         public int? PrintRun { get; set; }
+        [AllowHtml]
         public string Description { get; set; }
         public string Permalink { get; set; }
         public List<BookEditSectionViewModel> Sections { get; set; }
