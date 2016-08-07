@@ -33,10 +33,10 @@ namespace KTS.Web.AdminApp.ViewModels
         [Display(Name = "Published Date")]
         public string PublishedDate { get; set; }
         public List<string> Genres { get; set; }
-        public int? Pages { get; set; }
+        public string Pages { get; set; }
         public string Price { get; set; }
         [Display(Name = "Print Run")]
-        public int? PrintRun { get; set; }
+        public string PrintRun { get; set; }
         [AllowHtml]
         public string Description { get; set; }
         public string Permalink { get; set; }
@@ -61,9 +61,9 @@ namespace KTS.Web.AdminApp.ViewModels
             this.PublisherLocationCountry = jsonData.GetValue<string>(DatabaseFields.PUBLISHER_LOCATION_COUNTRY);
             this.PublishedDate = jsonData.GetValue<string>(DatabaseFields.PUBLISHED_DATE);
             this.Genres = jsonData.GetValue<List<string>>(DatabaseFields.GENRES);
-            this.Pages = jsonData.GetValue<int?>(DatabaseFields.PAGES);
+            this.Pages = jsonData.GetValue<string>(DatabaseFields.PAGES);
             this.Price = jsonData.GetValue<string>(DatabaseFields.PRICE);
-            this.PrintRun = jsonData.GetValue<int?>(DatabaseFields.PRINT_RUN);
+            this.PrintRun = jsonData.GetValue<string>(DatabaseFields.PRINT_RUN);
             this.Description = jsonData.GetValue<string>(DatabaseFields.DESCRIPTION);
             this.Permalink = jsonData.GetValue<string>(DatabaseFields.PERMALINK);
             this.Sections = jsonData.GetValue<List<BookEditSectionViewModel>>(DatabaseFields.SECTIONS);
