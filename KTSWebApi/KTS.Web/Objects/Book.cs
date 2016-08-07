@@ -13,7 +13,16 @@ namespace KTS.Web.Objects
         public string Title { get; set; }
         [JsonProperty("author")]
         public string Author { get; set; }
+        [JsonProperty("author_first")]
+        public string AuthorFirstName { get; set; }
         [JsonProperty("objectID")]
         public int ObjectId { get; set; }
+        public string AuthorName
+        {
+            get
+            {
+                return $"{this.AuthorFirstName} {this.Author}";
+            }
+        }
     }
 }

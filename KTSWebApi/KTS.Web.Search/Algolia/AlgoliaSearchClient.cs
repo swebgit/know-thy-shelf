@@ -68,7 +68,7 @@ namespace KTS.Web.Search.Algolia
             var query = new Query(searchString);
             query.SetNbHitsPerPage(pageSize);
             query.SetPage(pageNumber);
-            query.SetAttributesToRetrieve(new[] { "objectId", "title", "author" });
+            query.SetAttributesToRetrieve(new[] { "objectId", "title", "author", "author_first" });
             query.SetAttributesToHighlight(new string[] { });
             var queryResult = await this.PrimaryIndex.SearchAsync(query);
             JToken returnValue;

@@ -15,7 +15,14 @@ namespace KTS.Web.AdminApp.ViewModels
         [Required]
         public string Title { get; set; }
         [Required]
+        [Display(Name = "Search Title")]
+        public string SearchTitle { get; set; }
+        [Required]
+        [Display(Name = "Author Last Name")]
         public string Author { get; set; }
+        [Required]
+        [Display(Name = "Author First Name")]
+        public string AuthorFirstName { get; set; }
         [Display(Name = "Cover Image URL")]
         public string CoverUrl { get; set; }
         public string Publisher { get; set; }
@@ -43,7 +50,9 @@ namespace KTS.Web.AdminApp.ViewModels
         {
             this.ObjectId = jsonData.GetValue<int?>(DatabaseFields.OBJECT_ID);
             this.Title = jsonData.GetValue<string>(DatabaseFields.TITLE);
+            this.SearchTitle = jsonData.GetValue<string>(DatabaseFields.SEARCH_TITLE);
             this.Author = jsonData.GetValue<string>(DatabaseFields.AUTHOR);
+            this.AuthorFirstName = jsonData.GetValue<string>(DatabaseFields.AUTHOR_FIRST);
             this.CoverUrl = jsonData.GetValue<string>(DatabaseFields.COVER_URL);
             this.Publisher = jsonData.GetValue<string>(DatabaseFields.PUBLISHER);
             this.PublisherLocation = jsonData.GetValue<string>(DatabaseFields.PUBLISHER_LOCATION);
@@ -65,7 +74,9 @@ namespace KTS.Web.AdminApp.ViewModels
                 jObject.Add(DatabaseFields.OBJECT_ID, this.ObjectId);
 
             jObject.Add(DatabaseFields.TITLE, this.Title);
+            jObject.Add(DatabaseFields.SEARCH_TITLE, this.SearchTitle);
             jObject.Add(DatabaseFields.AUTHOR, this.Author);
+            jObject.Add(DatabaseFields.AUTHOR_FIRST, this.AuthorFirstName);
             jObject.Add(DatabaseFields.COVER_URL, this.CoverUrl);
             jObject.Add(DatabaseFields.PUBLISHER, this.Publisher);
             jObject.Add(DatabaseFields.PUBLISHER_LOCATION, this.PublisherLocation);

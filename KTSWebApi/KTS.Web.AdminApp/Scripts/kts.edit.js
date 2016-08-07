@@ -5,6 +5,9 @@
         var editForm = $("#book-edit-form");
         var bookSections = $("#book-sections");
 
+        var titleField = $("#Title");
+        var searchTitleField = $("#SearchTitle");
+
         var addNewSection = function () {
             var serializedFormData = editForm.serialize();
 
@@ -75,12 +78,35 @@
             }
         }
 
+        var copyTitleToSearchTitle = function () {
+            var titleValue = titleField.val();
+            wordsToIgnoreRegex = /^(a\s|an\s|the\s)/i;
+            var regexMatches = titleValue.match(wordsToIgnoreRegex);
+            if (regexMatches !== null && regexMatches.length > 0) {
+                searchTitleField.val(titleValue.replace(regexMatches[0], ""));
+            } else {
+                searchTitleField.val(titleValue);
+            }
+        };
+
+        var addOnChangeToTitleField = function () {
+            titleField.keyup(function () {
+                copyTitleToSearchTitle();
+            });
+
+            titleField.change(function () {
+                copyTitleToSearchTitle();
+            });
+        };
+
         var initialize = function () {
             addNewSectionButton.click(function (arg) {
                 addNewSection();
             });
 
             addClickToSectionButtons();
+
+            addOnChangeToTitleField();
         };
 
         var saveImageUrl = function (inputSelector, imageSelector, url) {
