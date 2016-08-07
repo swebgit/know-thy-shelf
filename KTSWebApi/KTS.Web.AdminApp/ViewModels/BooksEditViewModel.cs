@@ -26,8 +26,10 @@ namespace KTS.Web.AdminApp.ViewModels
         [Display(Name = "Cover Image URL")]
         public string CoverUrl { get; set; }
         public string Publisher { get; set; }
-        [Display(Name = "Publisher Location")]
+        [Display(Name = "Publisher City")]
         public string PublisherLocation { get; set; }
+        [Display(Name = "Publisher Country")]
+        public string PublisherLocationCountry { get; set; }
         [Display(Name = "Published Date")]
         public string PublishedDate { get; set; }
         public List<string> Genres { get; set; }
@@ -56,6 +58,7 @@ namespace KTS.Web.AdminApp.ViewModels
             this.CoverUrl = jsonData.GetValue<string>(DatabaseFields.COVER_URL);
             this.Publisher = jsonData.GetValue<string>(DatabaseFields.PUBLISHER);
             this.PublisherLocation = jsonData.GetValue<string>(DatabaseFields.PUBLISHER_LOCATION);
+            this.PublisherLocationCountry = jsonData.GetValue<string>(DatabaseFields.PUBLISHER_LOCATION_COUNTRY);
             this.PublishedDate = jsonData.GetValue<string>(DatabaseFields.PUBLISHED_DATE);
             this.Genres = jsonData.GetValue<List<string>>(DatabaseFields.GENRES);
             this.Pages = jsonData.GetValue<int?>(DatabaseFields.PAGES);
@@ -80,6 +83,7 @@ namespace KTS.Web.AdminApp.ViewModels
             jObject.Add(DatabaseFields.COVER_URL, this.CoverUrl);
             jObject.Add(DatabaseFields.PUBLISHER, this.Publisher);
             jObject.Add(DatabaseFields.PUBLISHER_LOCATION, this.PublisherLocation);
+            jObject.Add(DatabaseFields.PUBLISHER_LOCATION_COUNTRY, this.PublisherLocationCountry);
             jObject.Add(DatabaseFields.PUBLISHED_DATE, this.PublishedDate);
             jObject.Add(DatabaseFields.GENRES, JToken.FromObject(this.Genres));
             jObject.Add(DatabaseFields.PAGES, this.Pages);

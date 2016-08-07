@@ -30,6 +30,7 @@ namespace KTS.Web.Enums
         public const string PUBLISHED_DATE = "published_date";
         public const string PUBLISHER = "publisher";
         public const string PUBLISHER_LOCATION = "publisher_location";
+        public const string PUBLISHER_LOCATION_COUNTRY = "publisher_location_country";
         public const string SEARCH_TITLE = "search_title";
         public const string SECTIONS = "sections";
         public const string TITLE = "title";
