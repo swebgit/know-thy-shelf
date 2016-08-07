@@ -34,7 +34,7 @@ namespace KTS.Web.AdminApp.ViewModels
         public string PublishedDate { get; set; }
         public List<string> Genres { get; set; }
         public int? Pages { get; set; }
-        public decimal? Price { get; set; }
+        public string Price { get; set; }
         [Display(Name = "Print Run")]
         public int? PrintRun { get; set; }
         [AllowHtml]
@@ -62,7 +62,7 @@ namespace KTS.Web.AdminApp.ViewModels
             this.PublishedDate = jsonData.GetValue<string>(DatabaseFields.PUBLISHED_DATE);
             this.Genres = jsonData.GetValue<List<string>>(DatabaseFields.GENRES);
             this.Pages = jsonData.GetValue<int?>(DatabaseFields.PAGES);
-            this.Price = jsonData.GetValue<decimal?>(DatabaseFields.PRICE);
+            this.Price = jsonData.GetValue<string>(DatabaseFields.PRICE);
             this.PrintRun = jsonData.GetValue<int?>(DatabaseFields.PRINT_RUN);
             this.Description = jsonData.GetValue<string>(DatabaseFields.DESCRIPTION);
             this.Permalink = jsonData.GetValue<string>(DatabaseFields.PERMALINK);
