@@ -26,25 +26,32 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Books", "Index", "Books")</li>
                 </ul>
-                    @if (String.IsNullOrEmpty(this.User?.Identity?.Name))
+                @if (String.IsNullOrEmpty(this.User?.Identity?.Name))
+                {
+                    <p class="navbar-text navbar-right">
+                        Welcome! @Html.ActionLink("Login here", "Login", "Account").
+                    </p>
+                }
+                else
+                {
+                    using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { @class = "form-inline navbar-right", id = "form-logout" }))
                     {
                         <p class="navbar-text navbar-right">
-                            Welcome! @Html.ActionLink("Login here", "Login", "Account").
+                            Welcome, @this.User.Identity.Name! <a href="#" onclick="document.getElementById('form-logout').submit();">Logout here</a>.
                         </p>
                     }
-                    else
-                    {
-                        using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { @class = "form-inline navbar-right", id = "form-logout" }))
-                        {
-                            <p class="navbar-text navbar-right">
-                                Welcome, @this.User.Identity.Name! <a href="#" onclick="document.getElementById('form-logout').submit();">Logout here</a>.
-                            </p>
-                        }
-                    }
+                }
             </div>
         </div>
     </div>
     <div class="container body-content">
+        @if (this.Request.QueryString.AllKeys.Contains("message"))
+        {
+            <div class="alert alert-info alert-dismissible margin-top-20" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                @this.Request.QueryString["message"]
+            </div>
+        }
         @RenderBody()
         <hr />
         <footer>
@@ -56,4 +63,5 @@
     @Scripts.Render("~/bundles/kts")
     @RenderSection("scripts", required: false)
 </body>
+
 </html>

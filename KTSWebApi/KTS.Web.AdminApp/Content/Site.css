@@ -16,6 +16,10 @@
     white-space: normal;
 }
 
+.margin-top-20 {
+    margin-top: 20px;
+}
+
 .kts-form input,
 .kts-form select,
 .kts-form textarea {
